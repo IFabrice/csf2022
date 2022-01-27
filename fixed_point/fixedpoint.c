@@ -20,8 +20,22 @@ Fixedpoint fixedpoint_create(uint64_t whole) {
 }
 
 Fixedpoint fixedpoint_create2(uint64_t whole, uint64_t frac) {
+  int i = 1;
+  while (whole > 0) {
+    DUMMY.whole = DUMMY.whole + (whole%2)*i;
+    i *= 10;
+    whole /= 2;
+  }
+
+  int j = 1;
+  while (frac > 0) {
+    DUMMY.frac = DUMMY.frac + (frac%2)*j;
+    j *= 10;
+    frac /= 2;
+  }
+
   // TODO: implement
-  assert(0);
+  //assert(0);
   return DUMMY;
 }
 
