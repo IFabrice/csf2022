@@ -9,7 +9,12 @@
 static Fixedpoint DUMMY;
 
 Fixedpoint fixedpoint_create(uint64_t whole) {
-  // TODO: implement
+  int i = 1;
+  while (whole > 0) {
+    DUMMY.whole = DUMMY.whole + (whole%2)*i;
+    i *= 10;
+    whole /= 2;
+  } 
   assert(0);
   return DUMMY;
 }
