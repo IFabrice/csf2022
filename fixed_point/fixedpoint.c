@@ -15,7 +15,7 @@ Fixedpoint fixedpoint_create(uint64_t whole) {
     i *= 10;
     whole /= 2;
   } 
-  assert(0);
+  //assert();
   return DUMMY;
 }
 
