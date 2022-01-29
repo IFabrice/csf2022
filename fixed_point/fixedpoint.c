@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <assert.h>
 #include "fixedpoint.h"
+#include <math.h>
 
 // You can remove this once all of the functions are fully implemented
 static Fixedpoint DUMMY;
@@ -19,6 +20,26 @@ Fixedpoint fixedpoint_create(uint64_t whole) {
   return DUMMY;
 }
 
+uint64_t frac_to_binary(uint64_t frac) {
+  uint64_t digit_order = 0;
+  uint64_t frac_dummy = frac;
+  while(frac_dummy > 1) {
+    frac_dummy += 1;
+    digit_order += 1;
+  }
+  uint64_t bin_num = 0;
+  uint64_t i = 7;
+  while(i >= 0) {
+    frac *=2;
+    if (frac >= pow(10, digit_order)) {
+      bin_num += pow(10, digit_order);
+      frac -= pow(10, digit_order);
+    }
+    i -= 1;
+  }
+  return bin_num;
+}
+
 Fixedpoint fixedpoint_create2(uint64_t whole, uint64_t frac) {
   int i = 1;
   while (whole > 0) {
@@ -27,13 +48,8 @@ Fixedpoint fixedpoint_create2(uint64_t whole, uint64_t frac) {
     whole /= 2;
   }
 
-  int j = 1;
-  while (frac > 0) {
-    DUMMY.frac = DUMMY.frac + (frac%2)*j;
-    j *= 10;
-    frac /= 2;
-  }
-
+  DUMMY.frac = frac_to_binary(frac);
+  
   // TODO: implement
   //assert(0);
   return DUMMY;

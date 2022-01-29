@@ -18,6 +18,10 @@ typedef struct {
 //   the Fixedpoint value
 Fixedpoint fixedpoint_create(uint64_t whole);
 
+// Convert a fractoin part to binary.
+
+uint64_t frac_to_binary(uint64_t frac, uint64_t bin);
+
 // Create a Fixedpoint value from specified whole and fractional values.
 //
 // Parametrs:
