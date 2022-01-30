@@ -10,67 +10,43 @@
 static Fixedpoint DUMMY;
 
 Fixedpoint fixedpoint_create(uint64_t whole) {
-  int i = 1;
-  while (whole > 0) {
-    DUMMY.whole = DUMMY.whole + (whole%2)*i;
-    i *= 10;
-    whole /= 2;
-  } 
-  //assert();
+  DUMMY.whole = whole;
+  DUMMY.frac = 0;
+  DUMMY.tag = 0;
   return DUMMY;
 }
 
-uint64_t frac_to_binary(uint64_t frac) {
-  uint64_t digit_order = 0;
-  uint64_t frac_dummy = frac;
-  while(frac_dummy > 1) {
-    frac_dummy += 1;
-    digit_order += 1;
-  }
-  uint64_t bin_num = 0;
-  uint64_t i = 7;
-  while(i >= 0) {
-    frac *=2;
-    if (frac >= pow(10, digit_order)) {
-      bin_num += pow(10, digit_order);
-      frac -= pow(10, digit_order);
-    }
-    i -= 1;
-  }
-  return bin_num;
-}
-
 Fixedpoint fixedpoint_create2(uint64_t whole, uint64_t frac) {
-  int i = 1;
-  while (whole > 0) {
-    DUMMY.whole = DUMMY.whole + (whole%2)*i;
-    i *= 10;
-    whole /= 2;
-  }
-
-  DUMMY.frac = frac_to_binary(frac);
-  
-  // TODO: implement
-  //assert(0);
+  DUMMY.whole = whole;
+  DUMMY.frac = frac;
+  DUMMY.tag = 0;
   return DUMMY;
 }
 
 Fixedpoint fixedpoint_create_from_hex(const char *hex) {
-  // TODO: implement
-  assert(0);
+ int len = strlen(*hex);
+  char whole[] = *hex;
+
+  for (int i = 0; i < len; i++) {
+    if (whole[i] == ".") {
+      whole[i] = 0;
+      break;
+    }
+  }
+  char frac[] = *hex;
+  for 
+  //assert(0); 
   return DUMMY;
 }
 
 uint64_t fixedpoint_whole_part(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0UL;
+  assert(val.tag == 0 || val.tag == 1);
+  return val.whole;
 }
 
 uint64_t fixedpoint_frac_part(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
-  return 0UL;
+  assert(val.tag == 0 || val.tag == 1);
+  return val.frac;
 }
 
 Fixedpoint fixedpoint_add(Fixedpoint left, Fixedpoint right) {
@@ -110,8 +86,12 @@ int fixedpoint_compare(Fixedpoint left, Fixedpoint right) {
 }
 
 int fixedpoint_is_zero(Fixedpoint val) {
-  // TODO: implement
-  assert(0);
+  if (val.tag != 0) {
+    return 0;
+  }
+  if (val.whole == 0 && val.frac == 0) {
+    return 1;
+  }
   return 0;
 }
 

@@ -2,11 +2,18 @@
 #define FIXEDPREC_H
 
 #include <stdint.h>
+#include <math.h>
 
 typedef struct {
+  //the tag of a struct can have the following values:
+  // - 0 :Valid non-negative
+  // - 1 :Valid negative
+  // - 3 :Error value
+  // - 4 :An overflow value
+  // - 5 :Underflow value
   uint64_t whole;
   uint64_t frac;
-  char tag[];
+  uint64_t tag;
 } Fixedpoint;
 
 // Create a Fixedpoint value representing an integer.
@@ -20,8 +27,8 @@ Fixedpoint fixedpoint_create(uint64_t whole);
 
 // Convert a fractoin part to binary.
 
-uint64_t frac_to_binary(uint64_t frac);
 
+uint64_t expo(uint64_t *base, uint64_t *pow);
 // Create a Fixedpoint value from specified whole and fractional values.
 //
 // Parametrs:
